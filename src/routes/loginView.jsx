@@ -1,4 +1,4 @@
-import { auth, userExists } from "../firebase/firebase";
+import { auth, /*userExists */} from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import {
   GoogleAuthProvider,
@@ -6,10 +6,11 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
+import AuthProvider from "../components/authProvider";
 
 export default function LoginView() {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(null);
+  /*const [currentUser, setCurrentUser] = useState(null);*/
   /* State 0: Not logged in
     State 1 : Loading
     State 2 : Logged in
@@ -18,7 +19,7 @@ export default function LoginView() {
   const [state, setCurrentState] = useState(0);
 
   /* Detects if the user is logged in or not */
-  useEffect(() => {
+  /*useEffect(() => {
     setCurrentUser(1);
     console.log("Checking if user is logged in CS1 + " + state);
     onAuthStateChanged(auth, async(user) => {
@@ -42,7 +43,7 @@ export default function LoginView() {
         }
       }
     });
-  }, [navigate , state , currentUser]);
+  }, [navigate , state , currentUser]);*/
   /* Handles the user state change */
 
   
@@ -64,7 +65,24 @@ export default function LoginView() {
       }
     }
   }
+ 
   /* Loading Que se imprime con */
+  
+  function handleUserLoggedIn(user) {
+    navigate("/dashboard");
+  }
+
+  function handleUserNotLoggedin() {
+    setCurrentState(4);
+  }
+
+  function handleUserNotRegister(user) {
+    if (user) {
+      navigate("/choose-username");
+    }
+  }
+
+
   if (setCurrentState === 1) {
     console.log("Loading ...  State 1");
     return (
@@ -96,18 +114,12 @@ export default function LoginView() {
     );
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>LoginView</h1>
-        <button onClick={handleOnClick}>Google</button>
-        <a href="/LoginView">Login</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/dashboard/profile">Edit Profile</a>
-        <a href="/signout">Sign Out</a>
-        <a href="/u/username">Public Profile</a>
-        <a href="/choose-username">Choose Username</a>
-      </header>
-    </div>
+  return ( 
+  <AuthProvider
+    onUserLoggedIn={handleUserLoggedIn} 
+    onUserNotLoggedin={handleUserNotLoggedin}
+    onUserNotRegister={handleUserNotRegister} >
+
+  </AuthProvider>
   );
 }

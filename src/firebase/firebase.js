@@ -37,5 +37,5 @@ export async function userExists(uid) {
   console.log(res)
   
   // if the response is empty, the user does not exist
-  return console.log("Este Usuario Existe en la DB?",res.exists());
+  return console.log("Exist in DB",res.exists());
 }
