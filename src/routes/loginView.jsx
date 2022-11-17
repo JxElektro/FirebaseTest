@@ -1,5 +1,5 @@
 import { auth, userExists } from "../firebase/firebase";
-/* import { useNavigate } from "react-router-dom";*/
+import { useNavigate } from "react-router-dom";
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 
 export default function LoginView() {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
   /* State 0: Not logged in
     State 1 : Loading
@@ -19,25 +20,35 @@ export default function LoginView() {
   /* Detects if the user is logged in or not */
   useEffect(() => {
     setCurrentUser(1);
-    onAuthStateChanged(auth, handleUsertStateChange);
-  }, []);
+    console.log("Checking if user is logged in CS1 + " + state);
+    onAuthStateChanged(auth, async(user) => {
+      if (user) {
+        const isRegistered = await userExists(user.uid);
+        if (isRegistered) {
+          setCurrentState(2);
+          // Todo: Navigate to Dashboard
+          navigate("/dashboard");
+          console.log("Logged in CS2");
+        }
+        if (!isRegistered) {
+          // Todo: Navigate to choose Username
+          setCurrentState(3);
+          navigate("/choose-username");
+          console.log(user.displayName + " is not registered CS3" );
+        } else {
+          setCurrentState(4);
+          console.log("User is signed out CS4");
+          console.log(currentUser);
+        }
+      }
+    });
+  }, [navigate , state , currentUser]);
   /* Handles the user state change */
 
-  async function handleUsertStateChange(user) {
-    if (user) {
-      const isRegistered = await userExists(user.uid);
-      if (isRegistered) {
-        setCurrentState(2);
-        console.log("Logged in");
-      } else {
-        setCurrentState(3);
-      }
-      console.log("Not Registered in the database");
-    } else {
-      setCurrentState(4);
-      console.log("User is signed out");
-    }
-  }
+  
+    
+
+  
   /* This funciton is called when the user clicks the login button and it will create a object of the GoogleAuthProvider
   and is assigned to the provider variable and then will await the signInWithGoogle function to be called and pass the provider*/
   async function handleOnClick() {
@@ -55,6 +66,7 @@ export default function LoginView() {
   }
   /* Loading Que se imprime con */
   if (setCurrentState === 1) {
+    console.log("Loading ...  State 1");
     return (
       <div className="App">
         <header className="App-header">
@@ -64,7 +76,7 @@ export default function LoginView() {
     );
   }
   if (state === 3) {
-    console.log("No registrado");
+    console.log("No registrado State 3");
     return (
       <div className="App">
         <header className="App-header">
@@ -74,9 +86,12 @@ export default function LoginView() {
     );
   }
   if (state === 4) {
+    console.log("No user logged in State 4");
     return (
+      <div className="App">
       <div>
         <button onClick={handleOnClick}>Login</button>
+      </div>
       </div>
     );
   }
