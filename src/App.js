@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header"> 
-        <h1>Firebase</h1>
+        <h1>Firebase {process.env.REACT_APP_SALUDO}</h1>
         <a href="/LoginView">Login</a>
         <a href="/dashboard">Dashboard</a>
         <a href="/dashboard/profile">Edit Profile</a>

@@ -21,3 +21,5 @@ LinkTreee is a simple and easy to use link tree generator. It is built with Fire
 - Creacion de rutas en /routes
 
 - Creacion de PATHs en index.js
+
+- Se Creo el Archivo Firebase.js
