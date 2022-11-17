@@ -7,7 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage /*, ref , uploadBytesResumable, getDownloadURL */ } from "firebase/storage";
-
+import { getDoc , doc } from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -27,3 +27,15 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
+
+// Search for a user in the database by the user ID
+export async function userExists(uid) {
+  // Get a Ref doc from the database of the collection users and the document uid
+  const docRef = doc(db, "users", uid);
+  // the response of the database is stored in the variable res
+  const res = await getDoc(docRef);
+  console.log(res)
+  
+  // if the response is empty, the user does not exist
+  return console.log("Este Usuario Existe en la DB?",res.exists());
+}
