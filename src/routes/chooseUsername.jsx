@@ -1,8 +1,8 @@
-export default function LoginView() {
+export default function ChooseUsername() {
   return (
     <div className="App">
       <header className="App-header">
-      <h1>LoginView</h1>
+      <h1>Choose UserName</h1>
       <a href="/LoginView">Login</a>
         <a href="/dashboard">Dashboard</a>
         <a href="/dashboard/profile">Edit Profile</a>

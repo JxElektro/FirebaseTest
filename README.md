@@ -17,3 +17,7 @@ LinkTreee is a simple and easy to use link tree generator. It is built with Fire
     - routes
 
 - importacion react-router-dom al index.js
+
+- Creacion de rutas en /routes
+
+- Creacion de PATHs en index.js

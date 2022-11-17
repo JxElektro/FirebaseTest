@@ -1,8 +1,8 @@
-export default function LoginView() {
+export default function PublicProfile() {
   return (
     <div className="App">
       <header className="App-header">
-      <h1>LoginView</h1>
+      <h1>Public Profile</h1>
       <a href="/LoginView">Login</a>
         <a href="/dashboard">Dashboard</a>
         <a href="/dashboard/profile">Edit Profile</a>
